@@ -20,12 +20,15 @@ header {
   justify-content: center;
 }
 .divider {
-  border-top: 3px solid #d6522a;
+  border-top: 2px solid rgb(142, 46, 46);
 }
 .movie-text {
-  color: yellow;
+  color: rgb(255, 232, 31);
   font-size: 12px;
 }
 span {
   color: #6c6666;
+}
+li:hover {
+  box-shadow: 0 0 11px rgba(43, 89, 228, 0.8);
 }
