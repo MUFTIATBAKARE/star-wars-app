@@ -1,18 +1,10 @@
 import { React, useState, useEffect } from "react";
+import BackgroundUrls from "./BackgroundUrls";
 
 const Cards = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-
-  // const bgUrls = [
-  //   "https://finmavis.github.io/swapi-task/static/media/bg-card-1.0c96fd00.png",
-  //   "https://finmavis.github.io/swapi-task/static/media/bg-card-2.b0a7b209.png",
-  //   "https://finmavis.github.io/swapi-task/static/media/bg-card-3.1914d853.png",
-  //   "https://finmavis.github.io/swapi-task/static/media/bg-card-4.c21c4d4b.png",
-  //   "https://finmavis.github.io/swapi-task/static/media/bg-card-5.67d061d6.png",
-  //   "https://finmavis.github.io/swapi-task/static/media/bg-card-6.b4fea25d.png",
-  // ];
 
   useEffect(() => {
     fetch(`https://swapi.dev/api/films`)
@@ -67,23 +59,23 @@ const Cards = () => {
       {error && <div>{`There is a problem fetching your data - ${error}`}</div>}
       <ul>
         {data &&
-          data.map((movie) => {
+          data.map((movie, index) => {
+            const bgIndex = index % BackgroundUrls.length;
+            const bgUrl = BackgroundUrls[bgIndex];
             return (
               <li
                 key={movie.episode_id}
                 style={{
-                  backgroundImage:
-                    'url("https://finmavis.github.io/swapi-task/static/media/bg-card-3.1914d853.png")',
+                  backgroundImage: `url(${bgUrl})`,
                 }}
-                // style={{
-                //   backgroundImage: { bgUrl },
-                // }}
               >
                 <h3>{movie.title}</h3>
                 <span>{movie.release_date}</span>
-                <p>{movie.opening_crawl}</p>
-                <div className="divider"></div>
-                <p className="movie-text">More info</p>
+                <p>
+                  {movie.opening_crawl.slice(0, 260)}
+                  ...
+                </p>
+                <p className="movie-text">More Info</p>
               </li>
             );
           })}
