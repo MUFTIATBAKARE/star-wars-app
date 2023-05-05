@@ -15,6 +15,7 @@ li {
   flex-direction: column;
   color: white;
 }
+
 header {
   display: flex;
   justify-content: center;

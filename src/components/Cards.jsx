@@ -16,7 +16,14 @@ const Cards = () => {
       })
       .then((rawData) => {
         console.log(rawData);
-        setData(rawData.results);
+        let updatedData = [...rawData.results];
+
+        const newResults = updatedData.map(
+          (movie, index) => (movie.imageUrl = BackgroundUrls[index])
+        );
+        console.log(updatedData);
+        setData(updatedData);
+        console.log(newResults);
         setError(null);
       })
       .catch((error) => {
@@ -59,22 +66,17 @@ const Cards = () => {
       {error && <div>{`There is a problem fetching your data - ${error}`}</div>}
       <ul>
         {data &&
-          data.map((movie, index) => {
-            const bgIndex = index % BackgroundUrls.length;
-            const bgUrl = BackgroundUrls[bgIndex];
+          data.map((movie) => {
             return (
               <li
                 key={movie.episode_id}
                 style={{
-                  backgroundImage: `url(${bgUrl})`,
+                  backgroundImage: `url(${movie.imageUrl})`,
                 }}
               >
                 <h3>{movie.title}</h3>
                 <span>{movie.release_date}</span>
-                <p>
-                  {movie.opening_crawl.slice(0, 260)}
-                  ...
-                </p>
+                <p>{movie.opening_crawl.slice(0, 260)}</p>
                 <p className="movie-text">More Info</p>
               </li>
             );
