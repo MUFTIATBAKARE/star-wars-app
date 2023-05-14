@@ -16,6 +16,7 @@ const Home = () => {
         return response.json();
       })
       .then((rawData) => {
+        console.log(rawData);
         let updatedData = [...rawData.results];
         const newResults = updatedData.map(
           (movie, index) => (movie.imageUrl = BackgroundUrls[index])
@@ -63,7 +64,7 @@ const Home = () => {
       </header>
       {loading && <div>Data is loading. Please wait...</div>}
       {error && <div>{`There is a problem fetching your data - ${error}`}</div>}
-      <ul>
+      <ul className="card_list">
         {data &&
           data.map((movie) => {
             return (
@@ -76,7 +77,7 @@ const Home = () => {
                 <h3>{movie.title}</h3>
                 <span>{movie.release_date}</span>
                 <p>{movie.opening_crawl.slice(0, 260)}</p>
-                <Link to="/movie" className="movie-text">
+                <Link to={`/movie/${movie.episode_id}`} className="movie-text">
                   More Info
                 </Link>
               </li>

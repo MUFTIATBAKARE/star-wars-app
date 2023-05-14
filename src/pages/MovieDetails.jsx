@@ -6,14 +6,16 @@ import {
   getStarships,
   getVehicles,
 } from "../components/ApiCalls";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const MovieDetails = () => {
-  const [data, setData] = useState(null);
+  const { episode_id } = useParams();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   useEffect(() => {
-    fetch(`https://swapi.dev/api/films`)
+    fetch(`https://swapi.dev/api/films/${episode_id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Status is ${response.status}`);
@@ -21,65 +23,62 @@ const MovieDetails = () => {
         return response.json();
       })
       .then((rawData) => {
-        const promises = rawData.results.map((movie) => {
-          const {
-            episode_id,
+        console.log(rawData);
+        console.log(typeof rawData);
+
+        const {
+          episode_id,
+          title,
+          director,
+          producer,
+          opening_crawl,
+          characters,
+          planets,
+          species,
+          starships,
+          vehicles,
+        } = rawData;
+        return Promise.all([
+          getCharacters(characters),
+          getPlanets(planets),
+          getSpecies(species),
+          getStarships(starships),
+          getVehicles(vehicles),
+        ]).then(
+          ([
+            characterNames,
+            planetNames,
+            specieNames,
+            starshipNames,
+            vehicleNames,
+          ]) => ({
             title,
+            episode_id,
             director,
             producer,
             opening_crawl,
-            characters,
-            planets,
-            species,
-            starships,
-            vehicles,
-          } = movie;
-          return Promise.all([
-            getCharacters(characters),
-            getPlanets(planets),
-            getSpecies(species),
-            getStarships(starships),
-            getVehicles(vehicles),
-          ]).then(
-            ([
-              characterNames,
-              planetNames,
-              specieNames,
-              starshipNames,
-              vehicleNames,
-            ]) => ({
-              title,
-              episode_id,
-              director,
-              producer,
-              opening_crawl,
-              characters,
-              planets,
-              species,
-              starships,
-              vehicles,
-              characterNames,
-              planetNames,
-              specieNames,
-              starshipNames,
-              vehicleNames,
-            })
-          );
-        });
-        return Promise.all(promises);
+            characterNames,
+            planetNames,
+            specieNames,
+            starshipNames,
+            vehicleNames,
+          })
+        );
       })
       .then((movieData) => {
         setError(null);
-        setData(movieData);
+        setData([movieData]);
+        console.log(movieData);
       })
       .catch((error) => {
-        setData(null);
+        setData([]);
         setError(error);
+        console.log(error);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [episode_id]);
 
   return (
     <>
@@ -89,6 +88,7 @@ const MovieDetails = () => {
         {error && (
           <div>{`There is a problem fetching your data - ${error}`}</div>
         )}
+        {console.log(data)}
         {data &&
           data.map((movieDetail) => {
             return (
@@ -96,12 +96,38 @@ const MovieDetails = () => {
                 <h2>{movieDetail.title}</h2>
                 <p>Director: {movieDetail.director}</p>
                 <p>Producer: {movieDetail.producer}</p>
-                <p>Description {movieDetail.opening_crawl}</p>
-                <p>Characters {movieDetail.characterNames}</p>
-                <p>Planets {movieDetail.planetNames}</p>
-                <p>Species {movieDetail.specieNames}</p>
-                <p>Starships {movieDetail.starshipNames}</p>
-                <p>Vehicles {movieDetail.vehicleNames}</p>
+                <p>Description </p>
+                {movieDetail.opening_crawl}
+                <p>Characters</p>
+                <ul>
+                  {movieDetail.characterNames.map((name) => (
+                    <li key={name}>{name}</li>
+                  ))}
+                </ul>
+                <p>Planets </p>
+                <ul>
+                  {movieDetail.planetNames.map((name) => (
+                    <li key={name}> {name}</li>
+                  ))}
+                </ul>
+                <p>Species </p>
+                <ul>
+                  {movieDetail.specieNames.map((name) => (
+                    <li key={name}>{name}</li>
+                  ))}
+                </ul>
+                <p>Starships</p>
+                <ul>
+                  {movieDetail.starshipNames.map((name) => (
+                    <li key={name}>{name}</li>
+                  ))}
+                </ul>
+                <p>Vehicles </p>
+                <ul>
+                  {movieDetail.vehicleNames.map((name) => (
+                    <li key={name}>{name}</li>
+                  ))}
+                </ul>
               </div>
             );
           })}

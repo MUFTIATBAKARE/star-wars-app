@@ -10,7 +10,9 @@ const getCharacters = (characters) => {
     )
   )
     .then((characters) => {
+      console.log(characters);
       const characterNames = characters.map((character) => character.name);
+      console.log(characterNames);
       return characterNames;
     })
 
