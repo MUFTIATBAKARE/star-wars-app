@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import BackgroundUrls from "../components/BackgroundUrls";
+import BackgroundUrls from "../BackgroundUrls";
 import { Link } from "react-router-dom";
 
 const Home = () => {
@@ -74,10 +74,14 @@ const Home = () => {
                   backgroundImage: `url(${movie.imageUrl})`,
                 }}
               >
-                <h3>{movie.title}</h3>
+                <h3 className="movie_title">{movie.title}</h3>
                 <span>{movie.release_date}</span>
                 <p>{movie.opening_crawl.slice(0, 260)}</p>
-                <Link to={`/movie/${movie.episode_id}`} className="movie-text">
+                <Link
+                  key={movie.episode_id}
+                  to={`/movie/${movie.episode_id}`}
+                  className="movie-text"
+                >
                   More Info
                 </Link>
               </li>

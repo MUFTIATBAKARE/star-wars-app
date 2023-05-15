@@ -5,7 +5,7 @@ import {
   getSpecies,
   getStarships,
   getVehicles,
-} from "../components/ApiCalls";
+} from "../ApiCalls";
 import { Link, useParams } from "react-router-dom";
 
 const MovieDetails = () => {
