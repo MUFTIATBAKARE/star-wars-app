@@ -36,7 +36,7 @@ span {
 .card_list li:hover {
   box-shadow: 0 0 11px rgba(43, 89, 228, 0.8);
 }
-h3 {
+.movie_title h3 {
   letter-spacing: 2px;
   font-size: 1.3rem;
   margin-bottom: 0px;
