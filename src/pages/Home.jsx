@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import BackgroundUrls from "../BackgroundUrls";
 import { Link } from "react-router-dom";
+import { getId } from "../ApiCalls";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -16,14 +17,11 @@ const Home = () => {
         return response.json();
       })
       .then((rawData) => {
-        console.log(rawData);
         let updatedData = [...rawData.results];
-        const newResults = updatedData.map(
+        updatedData.map(
           (movie, index) => (movie.imageUrl = BackgroundUrls[index])
         );
-        console.log(updatedData);
         setData(updatedData);
-        console.log(newResults);
         setError(null);
       })
       .catch((error) => {
@@ -62,7 +60,7 @@ const Home = () => {
           </g>
         </svg>
       </header>
-      {loading && <div>Data is loading. Please wait...</div>}
+      {loading && <div className="loader"></div>}
       {error && <div>{`There is a problem fetching your data - ${error}`}</div>}
       <ul className="card_list">
         {data &&
@@ -77,11 +75,7 @@ const Home = () => {
                 <h3 className="movie_title">{movie.title}</h3>
                 <span>{movie.release_date}</span>
                 <p>{movie.opening_crawl.slice(0, 260)}</p>
-                <Link
-                  key={movie.episode_id}
-                  to={`/movie/${movie.episode_id}`}
-                  className="movie-text"
-                >
+                <Link to={`/movie/${getId(movie.url)}`} className="movie-text">
                   More Info
                 </Link>
               </li>

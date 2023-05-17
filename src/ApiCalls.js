@@ -10,12 +10,9 @@ const getCharacters = (characters) => {
     )
   )
     .then((characters) => {
-      console.log(characters);
       const characterNames = characters.map((character) => character.name);
-      console.log(characterNames);
       return characterNames;
     })
-
     .catch((error) => console.log(error));
 };
 const getPlanets = (planets) => {
@@ -33,7 +30,6 @@ const getPlanets = (planets) => {
       const planetNames = planets.map((planet) => planet.name);
       return planetNames;
     })
-
     .catch((error) => console.log(error));
 };
 const getSpecies = (species) => {
@@ -51,7 +47,6 @@ const getSpecies = (species) => {
       const specieNames = species.map((specie) => specie.name);
       return specieNames;
     })
-
     .catch((error) => console.log(error));
 };
 const getStarships = (starships) => {
@@ -69,7 +64,6 @@ const getStarships = (starships) => {
       const starshipNames = starships.map((starship) => starship.name);
       return starshipNames;
     })
-
     .catch((error) => console.log(error));
 };
 const getVehicles = (vehicles) => {
@@ -87,8 +81,19 @@ const getVehicles = (vehicles) => {
       const vehicleNames = vehicles.map((vehicle) => vehicle.name);
       return vehicleNames;
     })
-
     .catch((error) => console.log(error));
 };
+const getId = (url) => {
+  const urlId = url.match(/\/(\d+)\/$/);
+  const id = parseInt(urlId[1]);
+  return id;
+};
 
-export { getCharacters, getPlanets, getSpecies, getStarships, getVehicles };
+export {
+  getCharacters,
+  getPlanets,
+  getSpecies,
+  getStarships,
+  getVehicles,
+  getId,
+};
