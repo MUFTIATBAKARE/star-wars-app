@@ -5,17 +5,19 @@ import {
   getSpecies,
   getStarships,
   getVehicles,
+  getId,
 } from "../ApiCalls";
 import { Link, useParams } from "react-router-dom";
+import Logo from "../components/Logo";
 
 const MovieDetails = () => {
-  const { episode_id } = useParams();
+  const { id } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`https://swapi.dev/api/films/${episode_id}`)
+    fetch(`https://swapi.dev/api/films/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Status is ${response.status}`);
@@ -23,15 +25,13 @@ const MovieDetails = () => {
         return response.json();
       })
       .then((rawData) => {
-        console.log(rawData);
-        console.log(typeof rawData);
-
         const {
-          episode_id,
           title,
+          episode_id,
           director,
           producer,
           opening_crawl,
+          url,
           characters,
           planets,
           species,
@@ -44,6 +44,7 @@ const MovieDetails = () => {
           getSpecies(species),
           getStarships(starships),
           getVehicles(vehicles),
+          getId(url),
         ]).then(
           ([
             characterNames,
@@ -51,12 +52,14 @@ const MovieDetails = () => {
             specieNames,
             starshipNames,
             vehicleNames,
+            id,
           ]) => ({
             title,
             episode_id,
             director,
             producer,
             opening_crawl,
+            id,
             characterNames,
             planetNames,
             specieNames,
@@ -68,70 +71,76 @@ const MovieDetails = () => {
       .then((movieData) => {
         setError(null);
         setData([movieData]);
-        console.log(movieData);
       })
       .catch((error) => {
         setData([]);
         setError(error);
-        console.log(error);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [episode_id]);
+  }, [id]);
 
   return (
     <>
-      <div>
-        <Link to="/">Back to list</Link>
-        {loading && <div>Data is loading. Please wait...</div>}
-        {error && (
-          <div>{`There is a problem fetching your data - ${error}`}</div>
-        )}
-        {console.log(data)}
-        {data &&
-          data.map((movieDetail) => {
-            return (
-              <div key={movieDetail.episode_id}>
-                <h2>{movieDetail.title}</h2>
-                <p>Director: {movieDetail.director}</p>
-                <p>Producer: {movieDetail.producer}</p>
-                <p>Description </p>
-                {movieDetail.opening_crawl}
-                <p>Characters</p>
-                <ul>
+      <header>
+        <Logo />
+      </header>
+      {loading && <div className="loader"></div>}
+      {error && <div>{`There is a problem fetching your data - ${error}`}</div>}
+
+      {data &&
+        data.map((movieDetail) => {
+          return (
+            <div className="movie-detail-container">
+              <Link to="/" className="previous">
+                🔙 Back to list
+              </Link>
+              <div className="movie-detail-content" key={movieDetail.id}>
+                <div className="movie-detail-top-content  ">
+                  <h2>{movieDetail.title}</h2>
+                  <p>Director: {movieDetail.director}</p>
+                  <p>Producer: {movieDetail.producer}</p>
+                </div>
+                <p className="movie-detail-bottom-content-text">Description </p>
+                <p className="movie-detail-bottom-content-list">
+                  {" "}
+                  {movieDetail.opening_crawl}{" "}
+                </p>
+                <p className="movie-detail-bottom-content">Characters</p>
+                <ul className="movie-detail-bottom-content-list">
                   {movieDetail.characterNames.map((name) => (
                     <li key={name}>{name}</li>
                   ))}
                 </ul>
-                <p>Planets </p>
-                <ul>
+                <p className="movie-detail-bottom-content">Planets </p>
+                <ul className="movie-detail-bottom-content-list">
                   {movieDetail.planetNames.map((name) => (
                     <li key={name}> {name}</li>
                   ))}
                 </ul>
-                <p>Species </p>
-                <ul>
+                <p className="movie-detail-bottom-content">Species </p>
+                <ul className="movie-detail-bottom-content-list">
                   {movieDetail.specieNames.map((name) => (
                     <li key={name}>{name}</li>
                   ))}
                 </ul>
-                <p>Starships</p>
-                <ul>
+                <p className="movie-detail-bottom-content">Starships</p>
+                <ul className="movie-detail-bottom-content-list">
                   {movieDetail.starshipNames.map((name) => (
                     <li key={name}>{name}</li>
                   ))}
                 </ul>
-                <p>Vehicles </p>
-                <ul>
+                <p className="movie-detail-bottom-content">Vehicles </p>
+                <ul className="movie-detail-bottom-content-list">
                   {movieDetail.vehicleNames.map((name) => (
                     <li key={name}>{name}</li>
                   ))}
                 </ul>
               </div>
-            );
-          })}
-      </div>
+            </div>
+          );
+        })}
     </>
   );
 };
