@@ -7,8 +7,8 @@ const Logo = () => {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1347.6 227.4"
         className="logo"
-        width="450.6"
-        height="227.4"
+        width="420.6"
+        height="156.4"
       >
         <g id="Logo" fill="#FFE81F">
           <path

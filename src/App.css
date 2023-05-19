@@ -3,6 +3,7 @@
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   grid-column-gap: 45px;
   margin: auto;
+  padding: 0;
   width: 90%;
 }
 .card_list li {
@@ -13,7 +14,7 @@
   padding: 12px 24px;
   display: flex;
   flex-direction: column;
-  color: white;
+  color: rgb(254, 247, 247);
 }
 
 header {
@@ -83,6 +84,13 @@ span {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
 }
+.movie-detail-top-content-text {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  color: rgb(254, 247, 247);
+  flex-wrap: nowrap;
+}
 .movie-detail-top-content p {
   margin-bottom: 0;
 }
@@ -127,5 +135,37 @@ span {
 @keyframes load {
   to {
     transform: rotate(1turn);
+  }
+}
+@media screen and (max-width: 400px) and (min-width: 280px) {
+  .card_list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  .movie-detail-top-content h2 {
+    font-size: 24px;
+  }
+  .movie-detail-top-content p {
+    font-size: 8px;
+  }
+  .movie-detail-bottom-content {
+    font-size: 14px;
+  }
+  .movie-detail-bottom-content-text {
+    font-size: 14px;
+  }
+  .movie-detail-bottom-content-list {
+    font-size: 12px;
+  }
+  .no-content-container {
+    margin: 12px auto;
+    width: 80%;
+    padding: 15px;
+  }
+  .loader {
+    width: 60px; /* the size */
+    padding: 8px; /* the border thickness */
+    left: 38%;
   }
 }
