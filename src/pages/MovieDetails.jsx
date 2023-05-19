@@ -97,14 +97,15 @@ const MovieDetails = () => {
                 🔙 Back to list
               </Link>
               <div className="movie-detail-content" key={movieDetail.id}>
-                <div className="movie-detail-top-content  ">
+                <div className="movie-detail-top-content">
                   <h2>{movieDetail.title}</h2>
                   <p>Director: {movieDetail.director}</p>
-                  <p>Producer: {movieDetail.producer}</p>
+                  <span className="movie-detail-top-content-text">
+                    <p>Producer:</p> <p>{movieDetail.producer}</p>
+                  </span>
                 </div>
                 <p className="movie-detail-bottom-content-text">Description </p>
                 <p className="movie-detail-bottom-content-list">
-                  {" "}
                   {movieDetail.opening_crawl}{" "}
                 </p>
                 <p className="movie-detail-bottom-content">Characters</p>
